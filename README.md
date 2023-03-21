@@ -11,7 +11,11 @@
 
 This is a simple python script for building YouTube ReVanced Extended and YouTube Music ReVanced Extended.
 
-It automatically downloads the latest version of revanced-cli.jar, revanced-patches.jar, revanced-integrations.apk, youtube.apk, youtube-music.apk
+On the press of a single button, this script will:
+
+* Download the latest version of `revanced-cli.jar`, `revanced-patches.jar`, `revanced-integrations.apk`, `youtube.apk`, `youtube-music.apk`
+* Build YouTube ReVanced Extended
+* Build YouTube ReVanced Extended
 
 I made this for my personal use, but thought I'd share here in case anyone is interested.
 
