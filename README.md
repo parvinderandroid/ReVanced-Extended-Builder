@@ -10,7 +10,9 @@
 
 This is a simple python script for building YouTube ReVanced Extended and YouTube ReVanced Extended.
 
-I made this for my personal use, but thought I'd share here in case anyone is interested
+I made this for my personal use, but thought I'd share here in case anyone is interested.
+
+The main feature of this builder is that you don't need to download any patches or APKs manually. It automatically downloads and builds using the latest available version of all dependencies
 
 # Requirements
 
