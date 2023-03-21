@@ -15,7 +15,7 @@ On the press of a single button, this script will:
 
 * Download the latest version of `revanced-cli.jar`, `revanced-patches.jar`, `revanced-integrations.apk`, `youtube.apk`, `youtube-music.apk`
 * Build YouTube ReVanced Extended
-* Build YouTube ReVanced Extended
+* Build YouTube Music ReVanced Extended
 
 I made this for my personal use, but thought I'd share here in case anyone is interested.
 
