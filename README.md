@@ -28,6 +28,8 @@ The main feature of this builder is that you don't need to download any patches 
 # How to use?
 
 * Double click `Build.py`
+* Type 0
+* Press Enter
 
 # Credits
 
