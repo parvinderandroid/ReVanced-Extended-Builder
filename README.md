@@ -1,4 +1,4 @@
-# **ReVanced-Extended-Builder**
+# **ReVanced Extended Builder**
 
 # Table of Contents
 
