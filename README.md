@@ -44,6 +44,6 @@ The main feature of this builder is that you don't need to download any patches 
 
 # Credits
 
-* ReVanced Team - https://github.com/revanced/
-* inotia00 - https://github.com/inotia00
-* APKMirror - https://www.apkmirror.com/
+* [ReVanced Team](https://github.com/revanced/)
+* [inotia00](https://github.com/inotia00/)
+* [APKMirror](https://www.apkmirror.com/)
