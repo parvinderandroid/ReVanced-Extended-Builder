@@ -9,7 +9,9 @@
 
 # About
 
-This is a simple python script for building YouTube ReVanced Extended and YouTube ReVanced Extended.
+This is a simple python script for building YouTube ReVanced Extended and YouTube Music ReVanced Extended.
+
+It automatically downloads the latest version of revanced-cli.jar, revanced-patches.jar, revanced-integrations.apk, youtube.apk, youtube-music.apk
 
 I made this for my personal use, but thought I'd share here in case anyone is interested.
 
@@ -17,10 +19,12 @@ The main feature of this builder is that you don't need to download any patches 
 
 # Requirements
 
-* Vanced MicroG installed on phone - https://github.com/inotia00/VancedMicroG/releases/latest/download/microg.apk
+* Vanced MicroG installed on phone
+  * https://github.com/inotia00/VancedMicroG/releases/latest/download/microg.apk
   * Only needed if you want to sign in using your Google account
 * Google Chrome installed on system
-* Azul JDK 17 from here - https://www.azul.com/downloads/
+* Azul JDK 17
+  * https://www.azul.com/downloads/
   * I recommend downloading the zip and extracting it somewhere. Just remember where you extracted it and add that path to the `ZULU_JAVA_EXE` variable in the program
 * Python installed on system
   * I have only tested with Python 3.11.2
