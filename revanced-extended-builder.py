@@ -79,11 +79,11 @@ def download_youtube_music():
 
 
 def build_youtube():
-    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube.apk -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name --keystore=parvinder.keystore -o output\YouTube-ReVanced-Extended.apk')
+    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube.apk -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name --keystore=revanced-extended-builder.keystore -o output\YouTube-ReVanced-Extended.apk')
 
 
 def build_youtube_music():
-    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube-music.apk -b revanced-patches.jar -m revanced-integrations.apk --keystore=parvinder.keystore -o output\YouTube-Music-ReVanced-Extended.apk')
+    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube-music.apk -b revanced-patches.jar -m revanced-integrations.apk --keystore=revanced-extended-builder.keystore -o output\YouTube-Music-ReVanced-Extended.apk')
 
 
 def main():

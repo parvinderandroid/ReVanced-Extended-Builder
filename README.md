@@ -27,7 +27,7 @@ The main feature of this builder is that you don't need to download any patches 
   * https://github.com/inotia00/VancedMicroG/releases/latest/download/microg.apk
   * Only needed if you want to sign in using your Google account
 * Google Chrome installed on system
-* Azul JDK 17
+* Zulu JDK 17
   * https://www.azul.com/downloads/
   * I recommend downloading the zip and extracting it somewhere. Just remember where you extracted it and add that path to the `ZULU_JAVA_EXE` variable in the program
 * Python installed on system
