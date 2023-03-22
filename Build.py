@@ -86,33 +86,38 @@ def build_youtube_music():
     system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube-music.apk -b revanced-patches.jar -m revanced-integrations.apk --keystore=parvinder.keystore -o output\YouTube-Music-ReVanced-Extended.apk')
 
 
-options = [
-    "ALL",
-    "Delete old items",
-    "Download dependencies",
-    "Download YouTube",
-    "Download YouTube Music",
-    "Build YouTube",
-    "Build YouTube Music",
-    "Exit",
-]
-functions = [
-    delete_old_items,
-    download_dependencies,
-    download_youtube,
-    download_youtube_music,
-    build_youtube,
-    build_youtube_music,
-]
-while True:
-    for i, option in enumerate(options):
-        print(f"{i}. {option}")
-    choice = int(input(""))
-    if choice == 0:
-        for function in functions:
-            function()
-        _exit(1)
-    elif 0 < choice < len(options) - 1:
-        functions[choice - 1]()
-    else:
-        _exit(1)
+def main():
+    options = [
+        "ALL",
+        "Delete old items",
+        "Download dependencies",
+        "Download YouTube",
+        "Download YouTube Music",
+        "Build YouTube",
+        "Build YouTube Music",
+        "Exit",
+    ]
+    functions = [
+        delete_old_items,
+        download_dependencies,
+        download_youtube,
+        download_youtube_music,
+        build_youtube,
+        build_youtube_music,
+    ]
+    while True:
+        for i, option in enumerate(options):
+            print(f"{i}. {option}")
+        choice = int(input(""))
+        if choice == 0:
+            for function in functions:
+                function()
+            _exit(1)
+        elif 0 < choice < len(options) - 1:
+            functions[choice - 1]()
+        else:
+            _exit(1)
+
+
+if __name__ == "__main__":
+    main()
