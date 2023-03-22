@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from requests import get
 from undetected_chromedriver import Chrome, ChromeOptions
 
-ZULU_JAVA_EXE = r"C:\Program Files\Java\jdk-zulu17\bin\java.exe"
+ZULU_JAVA_EXE = r"C:\Program Files\Zulu\zulu-17\bin\java.exe"
 
 
 def delete_old_items():
