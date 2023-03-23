@@ -13,6 +13,8 @@ def delete_old_items():
         "options.toml",
         "output",
         "revanced-cache",
+        "revanced-cache-yt",
+        "revanced-cache-ytm",
         "revanced-cli.jar",
         "revanced-integrations.apk",
         "revanced-patches.jar",
@@ -84,11 +86,11 @@ def download_youtube_music():
 
 
 def build_youtube():
-    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube.apk -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name --keystore=revanced-extended-builder.keystore -o output\YouTube-ReVanced-Extended.apk')
+    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube.apk -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name --keystore=revanced-extended-builder.keystore -t=revanced-cache-yt -o output\YouTube-ReVanced-Extended.apk')
 
 
 def build_youtube_music():
-    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube-music.apk -b revanced-patches.jar -m revanced-integrations.apk --keystore=revanced-extended-builder.keystore -o output\YouTube-Music-ReVanced-Extended.apk')
+    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube-music.apk -b revanced-patches.jar -m revanced-integrations.apk --keystore=revanced-extended-builder.keystore -t=revanced-cache-ytm -o output\YouTube-Music-ReVanced-Extended.apk')
 
 
 def main():
@@ -108,8 +110,9 @@ def main():
                 executor.submit(download_dependencies)
                 executor.submit(download_youtube)
                 executor.submit(download_youtube_music)
-            build_youtube()
-            build_youtube_music()
+            with ThreadPoolExecutor() as executor:
+                executor.submit(build_youtube)
+                executor.submit(build_youtube_music)
             _exit(1)
         elif choice == 1:
             delete_old_items()
