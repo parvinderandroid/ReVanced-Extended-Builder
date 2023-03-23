@@ -50,7 +50,7 @@ def download_dependencies():
 def get_url(url, search_term):
     config = ChromeOptions()
     config.add_argument("--headless=new")
-    driver = Chrome(options=config)
+    driver = Chrome(version_main=111, options=config)
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, "html.parser")
     driver.quit()
@@ -92,34 +92,37 @@ def build_youtube_music():
 
 
 def main():
-    options = [
-        "ALL",
-        "Delete old items",
-        "Download dependencies",
-        "Download YouTube",
-        "Download YouTube Music",
-        "Build YouTube",
-        "Build YouTube Music",
-        "Exit",
-    ]
-    functions = [
-        delete_old_items,
-        download_dependencies,
-        download_youtube,
-        download_youtube_music,
-        build_youtube,
-        build_youtube_music,
-    ]
     while True:
-        for i, option in enumerate(options):
-            print(f"{i}. {option}")
+        print("0. ALL")
+        print("1. Delete old items")
+        print("2. Download dependencies")
+        print("3. Download YouTube")
+        print("4. Download YouTube Music")
+        print("5. Build YouTube")
+        print("6. Build YouTube Music")
+        print("7. Exit")
         choice = int(input(""))
         if choice == 0:
-            for function in functions:
-                function()
+            delete_old_items()
+            with ThreadPoolExecutor() as executor:
+                executor.submit(download_dependencies)
+                executor.submit(download_youtube)
+                executor.submit(download_youtube_music)
+            build_youtube()
+            build_youtube_music()
             _exit(1)
-        elif 0 < choice < len(options) - 1:
-            functions[choice - 1]()
+        elif choice == 1:
+            delete_old_items()
+        elif choice == 2:
+            download_dependencies()
+        elif choice == 3:
+            download_youtube()
+        elif choice == 4:
+            download_youtube_music()
+        elif choice == 5:
+            build_youtube()
+        elif choice == 6:
+            build_youtube_music()
         else:
             _exit(1)
 
