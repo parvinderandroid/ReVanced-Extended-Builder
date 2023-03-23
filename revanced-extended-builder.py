@@ -3,6 +3,7 @@ from shutil import rmtree
 from bs4 import BeautifulSoup
 from requests import get
 from undetected_chromedriver import Chrome, ChromeOptions
+from concurrent.futures import ThreadPoolExecutor
 
 ZULU_JAVA_EXE = r"C:\Program Files\Zulu\zulu-17\bin\java.exe"
 
@@ -25,12 +26,7 @@ def delete_old_items():
 
 
 def download_dependencies():
-    filenames_urls = {
-        "revanced-cli.jar": "https://api.github.com/repos/revanced/revanced-cli/releases/latest",
-        "revanced-integrations.apk": "https://api.github.com/repos/inotia00/revanced-integrations/releases/latest",
-        "revanced-patches.jar": "https://api.github.com/repos/inotia00/revanced-patches/releases/latest",
-    }
-    for filename, url in filenames_urls.items():
+    def download_file(filename, url):
         data = get(url).json()
         assets = data["assets"]
         extension = filename.split(".")[-1]
@@ -40,6 +36,15 @@ def download_dependencies():
                 response = get(download_url)
                 open(filename, "wb").write(response.content)
                 print(f'Downloaded {filename} ({data["tag_name"]})')
+
+    filenames_urls = {
+        "revanced-cli.jar": "https://api.github.com/repos/revanced/revanced-cli/releases/latest",
+        "revanced-integrations.apk": "https://api.github.com/repos/inotia00/revanced-integrations/releases/latest",
+        "revanced-patches.jar": "https://api.github.com/repos/inotia00/revanced-patches/releases/latest",
+    }
+    with ThreadPoolExecutor() as executor:
+        for filename, url in filenames_urls.items():
+            executor.submit(download_file, filename, url)
 
 
 def get_url(url, search_term):
