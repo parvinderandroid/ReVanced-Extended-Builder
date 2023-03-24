@@ -1,8 +1,9 @@
 from os import path, system, _exit, remove
 from shutil import rmtree
 from bs4 import BeautifulSoup
-from requests import get
 from concurrent.futures import ThreadPoolExecutor
+from urllib.request import Request, urlopen
+import json
 
 ZULU_JAVA_EXE = r"C:\Program Files\Zulu\zulu-17\bin\java.exe"
 
@@ -28,14 +29,14 @@ def delete_old_items():
 
 def download_dependencies():
     def download_file(filename, url):
-        data = get(url).json()
+        data = json.load(urlopen(url))
         assets = data["assets"]
         extension = filename.split(".")[-1]
         for asset in assets:
             if asset["name"].endswith(extension):
                 download_url = asset["browser_download_url"]
-                response = get(download_url)
-                open(filename, "wb").write(response.content)
+                response = urlopen(download_url)
+                open(filename, "wb").write(response.read())
                 print(f'Downloaded {filename} ({data["tag_name"]})')
 
     filenames_urls = {
@@ -49,8 +50,8 @@ def download_dependencies():
 
 
 def get_url(url, search_term):
-    response = get(url, headers={"User-Agent": "Mozilla/5.0"})
-    soup = BeautifulSoup(response.text, "html.parser")
+    response = urlopen(Request(url, headers={"User-Agent": "Mozilla/5.0"}))
+    soup = BeautifulSoup(response.read(), "html.parser")
     for link in soup.find_all("a"):
         href = link.get("href")
         if href and search_term in href:
@@ -59,14 +60,14 @@ def get_url(url, search_term):
 
 def download_apk(url, filename, version):
     download_link = get_url(get_url(url, "key="), "key=")
-    response = get(download_link, headers={"User-Agent": "Mozilla/5.0"})
+    response = urlopen(Request(download_link, headers={"User-Agent": "Mozilla/5.0"}))
     with open(filename, "wb") as apk_file:
-        apk_file.write(response.content)
+        apk_file.write(response.read())
     print(f"Downloaded {filename} (v{version.replace('-', '.')})")
 
 
 def download_youtube():
-    data = get("https://github.com/inotia00/revanced-patches/releases/latest/download/patches.json").json()
+    data = json.load(urlopen("https://github.com/inotia00/revanced-patches/releases/latest/download/patches.json"))
     patch = next(p for p in data if p["compatiblePackages"][0]["name"] == "com.google.android.youtube")
     version = patch["compatiblePackages"][0]["versions"][-1].replace(".", "-")
     url = f"https://www.apkmirror.com/apk/google-inc/youtube/youtube-{version}-release/youtube-{version}-2-android-apk-download/"

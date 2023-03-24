@@ -33,7 +33,7 @@ The main feature of this builder is that you don't need to download any patches 
   * I have only tested with Python 3.11.2
 * Below pip libraries installed on system:
     ```
-	pip install requests beautifulsoup4
+	pip install beautifulsoup4
 	```
 
 # How to use?
