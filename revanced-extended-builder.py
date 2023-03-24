@@ -57,11 +57,11 @@ def get_url(url, search_term):
             return "https://www.apkmirror.com" + href
 
 
-def apk_download(url, filename, version):
+def download_apk(url, filename, version):
     download_link = get_url(get_url(url, "key="), "key=")
-    r = get(download_link, headers={"User-Agent": "Mozilla/5.0"})
-    with open(filename, "wb") as f:
-        f.write(r.content)
+    response = get(download_link, headers={"User-Agent": "Mozilla/5.0"})
+    with open(filename, "wb") as apk_file:
+        apk_file.write(response.content)
     print(f"Downloaded {filename} (v{version.replace('-', '.')})")
 
 
@@ -70,14 +70,14 @@ def download_youtube():
     patch = next(p for p in data if p["compatiblePackages"][0]["name"] == "com.google.android.youtube")
     version = patch["compatiblePackages"][0]["versions"][-1].replace(".", "-")
     url = f"https://www.apkmirror.com/apk/google-inc/youtube/youtube-{version}-release/youtube-{version}-2-android-apk-download/"
-    apk_download(url, "youtube.apk", version)
+    download_apk(url, "youtube.apk", version)
 
 
 def download_youtube_music():
     homepage = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
     version = get_url(homepage, "/apk/google-inc/youtube-music/youtube-music-")[69:-9]
     url = f"{homepage}youtube-music-{version}-release/youtube-music-{version}-android-apk-download/"
-    apk_download(url, "youtube-music.apk", version)
+    download_apk(url, "youtube-music.apk", version)
 
 
 def build_youtube():
