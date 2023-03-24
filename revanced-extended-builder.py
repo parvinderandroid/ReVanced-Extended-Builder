@@ -7,6 +7,7 @@ from sys import exit
 from urllib.request import Request, urlopen
 
 ZULU_JAVA_EXE = r"C:\Program Files\Zulu\zulu-17\bin\java.exe"
+KEYSTORE_FILE = "revanced-extended-builder.keystore"
 
 
 def delete_old_items():
@@ -92,11 +93,21 @@ def download_youtube_music():
 
 
 def build_youtube():
-    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube.apk -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name --keystore=revanced-extended-builder.keystore -t=revanced-cache-yt -o output\YouTube-ReVanced-Extended.apk')
+    input_file = "youtube.apk"
+    output_dir = "output"
+    output_file = "YouTube-ReVanced-Extended.apk"
+    output_path = path.join(output_dir, output_file)
+    cache_dir = "revanced-cache-yt"
+    system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
 
 
 def build_youtube_music():
-    system(rf'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a youtube-music.apk -b revanced-patches.jar -m revanced-integrations.apk --keystore=revanced-extended-builder.keystore -t=revanced-cache-ytm -o output\YouTube-Music-ReVanced-Extended.apk')
+    input_file = "youtube-music.apk"
+    output_dir = "output"
+    output_file = "YouTube-Music-ReVanced-Extended.apk"
+    output_path = path.join(output_dir, output_file)
+    cache_dir = "revanced-cache-ytm"
+    system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
 
 
 def main():
