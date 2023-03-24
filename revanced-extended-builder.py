@@ -1,6 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from json import load
-from os import path, system, remove
+from os import path, system, remove, walk, rmdir
 from re import search
 from shutil import rmtree
 from sys import exit
@@ -10,6 +10,15 @@ ZULU_JAVA_EXE = r"C:\Program Files\Zulu\zulu-17\bin\java.exe"
 
 
 def delete_old_items():
+    def delete_directory(directory):
+        with ThreadPoolExecutor() as executor:
+            for root, dirs, files in walk(directory, topdown=False):
+                for file in files:
+                    executor.submit(remove, path.join(root, file))
+                for dir in dirs:
+                    executor.submit(rmdir, path.join(root, dir))
+        rmtree(directory)
+
     items = [
         "options.toml",
         "output",
@@ -24,7 +33,7 @@ def delete_old_items():
     ]
     for item in items:
         if path.exists(item):
-            (remove if path.isfile(item) else rmtree)(item)
+            (remove if path.isfile(item) else delete_directory)(item)
             print("Deleted", item)
 
 
