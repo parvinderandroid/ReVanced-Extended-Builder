@@ -26,7 +26,6 @@ The main feature of this builder is that you don't need to download any patches 
 * Vanced MicroG installed on phone
   * https://github.com/inotia00/VancedMicroG/releases/latest/download/microg.apk
   * Only needed if you want to sign in using your Google account
-* Google Chrome installed on system
 * Zulu JDK 17
   * https://www.azul.com/downloads/
   * I recommend downloading the zip and extracting it somewhere. Just remember where you extracted it and add that path to the `ZULU_JAVA_EXE` variable in the program
@@ -36,6 +35,7 @@ The main feature of this builder is that you don't need to download any patches 
     ```
 	pip install requests beautifulsoup4
 	```
+
 # How to use?
 
 * Double click `Build.py`
