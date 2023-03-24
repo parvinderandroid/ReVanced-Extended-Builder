@@ -49,10 +49,8 @@ def download_dependencies():
 
 
 def get_url(url, search_term):
-    headers = {"User-Agent": "Mozilla/5.0"}
-    response = get(url, headers=headers)
-    html = response.text
-    soup = BeautifulSoup(html, "html.parser")
+    response = get(url, headers={"User-Agent": "Mozilla/5.0"})
+    soup = BeautifulSoup(response.text, "html.parser")
     for link in soup.find_all("a"):
         href = link.get("href")
         if href and search_term in href:
