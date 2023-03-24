@@ -92,22 +92,9 @@ def download_youtube_music():
     download_apk(url, "youtube-music.apk", version)
 
 
-def build_youtube():
-    input_file = "youtube.apk"
-    output_dir = "output"
-    output_file = "YouTube-ReVanced-Extended.apk"
+def build_revanced(input_file, output_dir, output_file, cache_dir):
     output_path = path.join(output_dir, output_file)
-    cache_dir = "revanced-cache-yt"
     system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
-
-
-def build_youtube_music():
-    input_file = "youtube-music.apk"
-    output_dir = "output"
-    output_file = "YouTube-Music-ReVanced-Extended.apk"
-    output_path = path.join(output_dir, output_file)
-    cache_dir = "revanced-cache-ytm"
-    system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
 
 
 def main():
@@ -128,8 +115,8 @@ def main():
                 executor.submit(download_youtube)
                 executor.submit(download_youtube_music)
             with ThreadPoolExecutor() as executor:
-                executor.submit(build_youtube)
-                executor.submit(build_youtube_music)
+                executor.submit(build_revanced, "youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
+                executor.submit(build_revanced, "youtube-music.apk", "output", "YouTube-Music-ReVanced-Extended.apk", "revanced-cache-ytm")
             exit()
         elif choice == 1:
             delete_old_items()
@@ -140,9 +127,9 @@ def main():
         elif choice == 4:
             download_youtube_music()
         elif choice == 5:
-            build_youtube()
+            build_revanced("youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
         elif choice == 6:
-            build_youtube_music()
+            build_revanced("youtube-music.apk", "output", "YouTube-Music-ReVanced-Extended.apk", "revanced-cache-ytm")
         else:
             exit()
 
