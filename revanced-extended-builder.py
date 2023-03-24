@@ -2,7 +2,6 @@ from os import path, system, _exit, remove
 from shutil import rmtree
 from bs4 import BeautifulSoup
 from requests import get
-from undetected_chromedriver import Chrome, ChromeOptions
 from concurrent.futures import ThreadPoolExecutor
 
 ZULU_JAVA_EXE = r"C:\Program Files\Zulu\zulu-17\bin\java.exe"
@@ -50,12 +49,10 @@ def download_dependencies():
 
 
 def get_url(url, search_term):
-    config = ChromeOptions()
-    config.add_argument("--headless=new")
-    driver = Chrome(version_main=111, options=config)
-    driver.get(url)
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-    driver.quit()
+    headers = {"User-Agent": "Mozilla/5.0"}
+    response = get(url, headers=headers)
+    html = response.text
+    soup = BeautifulSoup(html, "html.parser")
     for link in soup.find_all("a"):
         href = link.get("href")
         if href and search_term in href:
