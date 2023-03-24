@@ -31,10 +31,6 @@ The main feature of this builder is that you don't need to download any patches 
   * I recommend downloading the zip and extracting it somewhere. Just remember where you extracted it and add that path to the `ZULU_JAVA_EXE` variable in the program
 * Python installed on system
   * I have only tested with Python 3.11.2
-* Below pip libraries installed on system:
-    ```
-	pip install beautifulsoup4
-	```
 
 # How to use?
 

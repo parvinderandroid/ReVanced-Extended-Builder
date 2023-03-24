@@ -1,9 +1,10 @@
-from os import path, system, _exit, remove
-from shutil import rmtree
-from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
+from json import load
+from os import path, system, remove
+from re import search
+from shutil import rmtree
+from sys import exit
 from urllib.request import Request, urlopen
-import json
 
 ZULU_JAVA_EXE = r"C:\Program Files\Zulu\zulu-17\bin\java.exe"
 
@@ -29,7 +30,7 @@ def delete_old_items():
 
 def download_dependencies():
     def download_file(filename, url):
-        data = json.load(urlopen(url))
+        data = load(urlopen(url))
         assets = data["assets"]
         extension = filename.split(".")[-1]
         for asset in assets:
@@ -51,11 +52,11 @@ def download_dependencies():
 
 def get_url(url, search_term):
     response = urlopen(Request(url, headers={"User-Agent": "Mozilla/5.0"}))
-    soup = BeautifulSoup(response.read(), "html.parser")
-    for link in soup.find_all("a"):
-        href = link.get("href")
-        if href and search_term in href:
-            return "https://www.apkmirror.com" + href
+    html = response.read().decode("utf-8")
+    pattern = f'href="([^"]*{search_term}[^"]*)"'
+    match = search(pattern, html)
+    if match:
+        return "https://www.apkmirror.com" + match.group(1)
 
 
 def download_apk(url, filename, version):
@@ -67,7 +68,7 @@ def download_apk(url, filename, version):
 
 
 def download_youtube():
-    data = json.load(urlopen("https://github.com/inotia00/revanced-patches/releases/latest/download/patches.json"))
+    data = load(urlopen("https://github.com/inotia00/revanced-patches/releases/latest/download/patches.json"))
     patch = next(p for p in data if p["compatiblePackages"][0]["name"] == "com.google.android.youtube")
     version = patch["compatiblePackages"][0]["versions"][-1].replace(".", "-")
     url = f"https://www.apkmirror.com/apk/google-inc/youtube/youtube-{version}-release/youtube-{version}-2-android-apk-download/"
@@ -109,7 +110,7 @@ def main():
             with ThreadPoolExecutor() as executor:
                 executor.submit(build_youtube)
                 executor.submit(build_youtube_music)
-            _exit(1)
+            exit()
         elif choice == 1:
             delete_old_items()
         elif choice == 2:
@@ -123,7 +124,7 @@ def main():
         elif choice == 6:
             build_youtube_music()
         else:
-            _exit(1)
+            exit()
 
 
 if __name__ == "__main__":
