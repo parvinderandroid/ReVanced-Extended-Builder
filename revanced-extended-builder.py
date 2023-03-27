@@ -93,8 +93,13 @@ def download_youtube():
 def download_youtube_music():
     homepage = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
     version = get_url(homepage, "/apk/google-inc/youtube-music/youtube-music-")[69:-9]
-    url = f"{homepage}youtube-music-{version}-release/youtube-music-{version}-android-apk-download/"
-    download_apk(url, "youtube-music.apk", version)
+    url = f"https://www.apkmirror.com/apk/google-inc/youtube-music/youtube-music-{version}-release/"
+    response = urlopen(Request(url, headers={"User-Agent": "Mozilla/5.0"}))
+    html = response.read().decode("utf-8")
+    match = search(r'arm64-v8a</div>.*?href="(.*?android-apk-download/)"', html, DOTALL)
+    if match:
+        apk_url = "https://www.apkmirror.com" + match.group(1).split("#")[0]
+    download_apk(apk_url, "youtube-music.apk", version)
 
 
 def build_revanced(input_file, output_dir, output_file, cache_dir):
