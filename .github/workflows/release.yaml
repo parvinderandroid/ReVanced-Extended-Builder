@@ -19,9 +19,19 @@ jobs:
           NEXT_VERSION=$(echo $LATEST_VERSION | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
           echo "::set-output name=version::$NEXT_VERSION"
       - name: Create Release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.next_version.outputs.version }}
           release_name: Release ${{ steps.next_version.outputs.version }}
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ReVanced-Extended-Builder.bat
+          asset_name: ReVanced-Extended-Builder.bat
+          asset_content_type: application/octet-stream
