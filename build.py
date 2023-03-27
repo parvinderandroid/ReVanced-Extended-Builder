@@ -1,12 +1,13 @@
 from concurrent.futures import ThreadPoolExecutor
 from json import load
-from os import path, system, remove, walk, rmdir
+from os import path, system, remove, walk, rmdir, getcwd
 from re import search, DOTALL
 from shutil import rmtree
-from sys import exit
-from urllib.request import Request, urlopen
+from sys import exit, argv
+from urllib.request import Request, urlopen, urlretrieve
+from zipfile import ZipFile
 
-ZULU_JAVA_EXE = r"C:\Program Files\Zulu\zulu-17\bin\java.exe"
+ZULU_JAVA_EXE = None
 KEYSTORE_FILE = "keystore.keystore"
 
 
@@ -31,11 +32,27 @@ def delete_old_items():
         "revanced-patches.jar",
         "youtube-music.apk",
         "youtube.apk",
+        "zulu17.40.19-ca-jdk17.0.6-win_x64",
     ]
     for item in items:
         if path.exists(item):
             (remove if path.isfile(item) else delete_directory)(item)
             print("Deleted", item)
+
+
+def download_zulu_jdk():
+    global ZULU_JAVA_EXE
+    if not ZULU_JAVA_EXE:
+        url = "https://cdn.azul.com/zulu/bin/zulu17.40.19-ca-jdk17.0.6-win_x64.zip"
+        filename = url.split("/")[-1]
+        urlretrieve(url, filename)
+        print(f"Downloaded {filename}")
+        with ZipFile(filename, "r") as zip_ref:
+            zip_ref.extractall()
+        print(f"Extracted {filename}")
+        remove(filename)
+        print(f"Deleted {filename}")
+        ZULU_JAVA_EXE = rf"{getcwd()}\zulu17.40.19-ca-jdk17.0.6-win_x64\bin\java.exe"
 
 
 def download_dependencies():
@@ -47,7 +64,8 @@ def download_dependencies():
             if asset["name"].endswith(extension):
                 download_url = asset["browser_download_url"]
                 response = urlopen(download_url)
-                open(filename, "wb").write(response.read())
+                with open(filename, "wb") as f:
+                    f.write(response.read())
                 print(f'Downloaded {filename} ({data["tag_name"]})')
 
     filenames_urls = {
@@ -105,7 +123,35 @@ def build_revanced(input_file, output_dir, output_file, cache_dir):
 
 
 def main():
-    while True:
+    if len(argv) > 1:
+        choice = int(argv[1])
+    else:
+        choice = 0
+    if choice == 0:
+        delete_old_items()
+        with ThreadPoolExecutor() as executor:
+            executor.submit(download_zulu_jdk)
+            executor.submit(download_dependencies)
+            executor.submit(download_youtube)
+            executor.submit(download_youtube_music)
+        with ThreadPoolExecutor() as executor:
+            executor.submit(build_revanced, "youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
+            executor.submit(build_revanced, "youtube-music.apk", "output", "YouTube-Music-ReVanced-Extended.apk", "revanced-cache-ytm")
+        exit()
+    elif choice == 1:
+        delete_old_items()
+    elif choice == 2:
+        download_dependencies()
+    elif choice == 3:
+        download_youtube()
+    elif choice == 4:
+        download_youtube_music()
+    elif choice == 5:
+        build_revanced("youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
+    elif choice == 6:
+        build_revanced("youtube-music.apk", "output", "YouTube-Music-ReVanced-Extended.apk", "revanced-cache-ytm")
+    else:
+        print(f"\n{argv[1]} IS NOT A VALID ARGUMENT\n")
         print("0. ALL")
         print("1. Delete old items")
         print("2. Download dependencies")
@@ -113,32 +159,6 @@ def main():
         print("4. Download YouTube Music")
         print("5. Build YouTube")
         print("6. Build YouTube Music")
-        print("7. Exit")
-        choice = int(input(""))
-        if choice == 0:
-            delete_old_items()
-            with ThreadPoolExecutor() as executor:
-                executor.submit(download_dependencies)
-                executor.submit(download_youtube)
-                executor.submit(download_youtube_music)
-            with ThreadPoolExecutor() as executor:
-                executor.submit(build_revanced, "youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
-                executor.submit(build_revanced, "youtube-music.apk", "output", "YouTube-Music-ReVanced-Extended.apk", "revanced-cache-ytm")
-            exit()
-        elif choice == 1:
-            delete_old_items()
-        elif choice == 2:
-            download_dependencies()
-        elif choice == 3:
-            download_youtube()
-        elif choice == 4:
-            download_youtube_music()
-        elif choice == 5:
-            build_revanced("youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
-        elif choice == 6:
-            build_revanced("youtube-music.apk", "output", "YouTube-Music-ReVanced-Extended.apk", "revanced-cache-ytm")
-        else:
-            exit()
 
 
 if __name__ == "__main__":
