@@ -1,6 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from json import load
-from os import path, system, remove, walk, rmdir, getcwd
+from os import path, system, remove, walk, rmdir, getcwd, makedirs, rename
 from re import search, DOTALL
 from shutil import rmtree
 from sys import exit, argv
@@ -53,6 +53,16 @@ def download_zulu_jdk():
         remove(filename)
         print(f"Deleted {filename}")
         ZULU_JAVA_EXE = rf"{getcwd()}\zulu17.40.19-ca-jdk17.0.6-win_x64\bin\java.exe"
+
+
+def download_microg():
+    url = "https://github.com/inotia00/VancedMicroG/releases/latest/download/microg.apk"
+    filename = url.split("/")[-1]
+    urlretrieve(url, filename)
+    print(f"Downloaded {filename}")
+    if not path.exists("output"):
+        makedirs("output")
+    rename(filename, f"output/{filename}")
 
 
 def download_dependencies():
@@ -131,6 +141,7 @@ def main():
         delete_old_items()
         with ThreadPoolExecutor() as executor:
             executor.submit(download_zulu_jdk)
+            executor.submit(download_microg)
             executor.submit(download_dependencies)
             executor.submit(download_youtube)
             executor.submit(download_youtube_music)
@@ -141,24 +152,30 @@ def main():
     elif choice == 1:
         delete_old_items()
     elif choice == 2:
-        download_dependencies()
+        download_zulu_jdk()
     elif choice == 3:
-        download_youtube()
+        download_microg()
     elif choice == 4:
-        download_youtube_music()
+        download_dependencies()
     elif choice == 5:
-        build_revanced("youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
+        download_youtube()
     elif choice == 6:
+        download_youtube_music()
+    elif choice == 7:
+        build_revanced("youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
+    elif choice == 8:
         build_revanced("youtube-music.apk", "output", "YouTube-Music-ReVanced-Extended.apk", "revanced-cache-ytm")
     else:
         print(f"\n{argv[1]} IS NOT A VALID ARGUMENT\n")
         print("0. ALL")
         print("1. Delete old items")
-        print("2. Download dependencies")
-        print("3. Download YouTube")
-        print("4. Download YouTube Music")
-        print("5. Build YouTube")
-        print("6. Build YouTube Music")
+        print("2. Download Zulu JDK")
+        print("3. Download MicroG")
+        print("4. Download dependencies")
+        print("5. Download YouTube")
+        print("6. Download YouTube Music")
+        print("7. Build YouTube")
+        print("8. Build YouTube Music")
 
 
 if __name__ == "__main__":
