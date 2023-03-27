@@ -7,7 +7,7 @@ from sys import exit
 from urllib.request import Request, urlopen
 
 ZULU_JAVA_EXE = r"C:\Program Files\Zulu\zulu-17\bin\java.exe"
-KEYSTORE_FILE = "revanced-extended-builder.keystore"
+KEYSTORE_FILE = "keystore.keystore"
 
 
 def delete_old_items():
