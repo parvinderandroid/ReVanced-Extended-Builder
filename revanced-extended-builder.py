@@ -69,8 +69,13 @@ def get_url(url, search_term):
         return "https://www.apkmirror.com" + match.group(1)
 
 
-def download_apk(url, filename, version):
-    download_link = get_url(get_url(url, "key="), "key=")
+def download_apk(url, search_term, version, filename):
+    response = urlopen(Request(url, headers={"User-Agent": "Mozilla/5.0"}))
+    html = response.read().decode("utf-8")
+    match = search(rf'{search_term}.*?href="(.*?android-apk-download/)"', html, DOTALL)
+    if match:
+        apk_url = "https://www.apkmirror.com" + match.group(1).split("#")[0]
+    download_link = get_url(get_url(apk_url, "key="), "key=")
     response = urlopen(Request(download_link, headers={"User-Agent": "Mozilla/5.0"}))
     with open(filename, "wb") as apk_file:
         apk_file.write(response.read())
@@ -82,24 +87,16 @@ def download_youtube():
     patch = next(p for p in data if p["compatiblePackages"][0]["name"] == "com.google.android.youtube")
     version = patch["compatiblePackages"][0]["versions"][-1].replace(".", "-")
     url = f"https://www.apkmirror.com/apk/google-inc/youtube/youtube-{version}-release/"
-    response = urlopen(Request(url, headers={"User-Agent": "Mozilla/5.0"}))
-    html = response.read().decode("utf-8")
-    match = search(r'APK</span>.*?href="(.*?android-apk-download/)"', html, DOTALL)
-    if match:
-        apk_url = "https://www.apkmirror.com" + match.group(1).split("#")[0]
-    download_apk(apk_url, "youtube.apk", version)
+    search_term = "APK</span>"
+    download_apk(url, search_term, version, "youtube.apk")
 
 
 def download_youtube_music():
     homepage = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
     version = get_url(homepage, "/apk/google-inc/youtube-music/youtube-music-")[69:-9]
     url = f"https://www.apkmirror.com/apk/google-inc/youtube-music/youtube-music-{version}-release/"
-    response = urlopen(Request(url, headers={"User-Agent": "Mozilla/5.0"}))
-    html = response.read().decode("utf-8")
-    match = search(r'arm64-v8a</div>.*?href="(.*?android-apk-download/)"', html, DOTALL)
-    if match:
-        apk_url = "https://www.apkmirror.com" + match.group(1).split("#")[0]
-    download_apk(apk_url, "youtube-music.apk", version)
+    search_term = "arm64-v8a</div>"
+    download_apk(url, search_term, version, "youtube-music.apk")
 
 
 def build_revanced(input_file, output_dir, output_file, cache_dir):
