@@ -13,7 +13,7 @@ This is a simple python script for building YouTube ReVanced Extended and YouTub
 
 On the press of a single button, this script will:
 
-* Download the latest version of `revanced-cli.jar`, `revanced-patches.jar`, `revanced-integrations.apk`, `youtube.apk`, `youtube-music.apk`
+* Download the latest version of `Zulu JDK 17`, `revanced-cli.jar`, `revanced-patches.jar`, `revanced-integrations.apk`, `microg.apk`, `youtube.apk`, `youtube-music.apk`
 * Build YouTube ReVanced Extended
 * Build YouTube Music ReVanced Extended
 
@@ -23,20 +23,12 @@ The main feature of this builder is that you don't need to download any patches 
 
 # Requirements
 
-* Vanced MicroG installed on phone
-  * https://github.com/inotia00/VancedMicroG/releases/latest/download/microg.apk
-  * Only needed if you want to sign in using your Google account
-* Zulu JDK 17
-  * https://www.azul.com/downloads/
-  * I recommend downloading the zip and extracting it somewhere. Just remember where you extracted it and add that path to the `ZULU_JAVA_EXE` variable in the program
 * Python installed on system
   * I have only tested with Python 3.11.2
 
 # How to use?
 
-* Double click `Build.py`
-* Type 0
-* Press Enter
+* Double click `build.py`
 
 # Credits
 
