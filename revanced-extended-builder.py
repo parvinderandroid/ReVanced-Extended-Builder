@@ -1,7 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 from json import load
 from os import path, system, remove, walk, rmdir
-from re import search
+from re import search, DOTALL
 from shutil import rmtree
 from sys import exit
 from urllib.request import Request, urlopen
@@ -81,8 +81,13 @@ def download_youtube():
     data = load(urlopen("https://github.com/inotia00/revanced-patches/releases/latest/download/patches.json"))
     patch = next(p for p in data if p["compatiblePackages"][0]["name"] == "com.google.android.youtube")
     version = patch["compatiblePackages"][0]["versions"][-1].replace(".", "-")
-    url = f"https://www.apkmirror.com/apk/google-inc/youtube/youtube-{version}-release/youtube-{version}-2-android-apk-download/"
-    download_apk(url, "youtube.apk", version)
+    url = f"https://www.apkmirror.com/apk/google-inc/youtube/youtube-{version}-release/"
+    response = urlopen(Request(url, headers={"User-Agent": "Mozilla/5.0"}))
+    html = response.read().decode("utf-8")
+    match = search(r'APK</span>.*?href="(.*?android-apk-download/)"', html, DOTALL)
+    if match:
+        apk_url = "https://www.apkmirror.com" + match.group(1).split("#")[0]
+    download_apk(apk_url, "youtube.apk", version)
 
 
 def download_youtube_music():
