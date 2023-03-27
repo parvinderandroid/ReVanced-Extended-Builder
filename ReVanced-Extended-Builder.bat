@@ -1,7 +1,9 @@
 @echo off
+rd /s /q output
+echo Deleted output
 set python_url=https://www.python.org/ftp/python/3.11.2/python-3.11.2-embed-amd64.zip
-set python_filename=python-3.11.2-embed-amd64.zip
-set python_foldername=python-3.11.2-embed-amd64
+set python_filename=python-embedded.zip
+set python_foldername=python-embedded
 curl -sS %python_url% -o %python_filename%
 echo Downloaded %python_filename%
 mkdir %python_foldername%
