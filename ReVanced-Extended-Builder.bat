@@ -1,4 +1,5 @@
 @echo off
+
 rd /s /q output
 echo Deleted output
 set python_url=https://www.python.org/ftp/python/3.11.2/python-3.11.2-embed-amd64.zip
