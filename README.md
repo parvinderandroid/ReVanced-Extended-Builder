@@ -3,7 +3,6 @@
 # Table of Contents
 
 - [About](#about)
-- [Requirements](#requirements)
 - [How to use?](#how-to-use)
 - [Credits](#credits)
 
@@ -17,14 +16,9 @@ On the press of a single button, this script will:
 * Build YouTube ReVanced Extended
 * Build YouTube Music ReVanced Extended
 
-# Requirements
-
-* Python 3.6+ installed on system
-  * I have tested with Python 3.6.0 and Python 3.11.2
-
 # How to use?
 
-* Double click `build.py`
+* Download and run [`ReVanced-Extended-Builder.bat`](https://github.com/parvinderandroid/ReVanced-Extended-Builder/releases/latest/download/ReVanced-Extended-Builder.bat)
 * Find APKs in `output` folder
 
 # Credits
