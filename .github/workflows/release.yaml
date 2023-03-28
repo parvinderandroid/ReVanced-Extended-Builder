@@ -16,7 +16,7 @@ jobs:
         id: next_version
         run: |
           LATEST_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          NEXT_VERSION=$(echo $LATEST_VERSION | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+          NEXT_VERSION=$(echo $LATEST_VERSION | awk -F. '{OFS="."; $NF+=1; print}')
           echo "::set-output name=version::$NEXT_VERSION"
       - name: Create Release
         id: create_release
