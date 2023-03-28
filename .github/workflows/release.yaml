@@ -19,7 +19,7 @@ jobs:
         run: |
           LATEST_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
           NEXT_VERSION=$(echo $LATEST_VERSION | awk -F. '{OFS="."; $NF+=1; print}')
-          echo "version=$NEXT_VERSION" >> $GITHUB_ENV
+          echo "version=$NEXT_VERSION" >> $GITHUB_OUTPUT
       - name: Print next version
         run: echo ${{ steps.next_version.outputs.version }}
       - name: Print latest version
