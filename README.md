@@ -19,6 +19,11 @@ On the press of a single button, this script will:
 # How to use?
 
 * Download and run [`ReVanced-Extended-Builder.bat`](https://github.com/parvinderandroid/ReVanced-Extended-Builder/releases/latest/download/ReVanced-Extended-Builder.bat)
+* Or you can run this directly in CMD
+
+```cmd
+curl -sS https://raw.githubusercontent.com/parvinderandroid/ReVanced-Extended-Builder/main/ReVanced-Extended-Builder.bat -o ReVanced-Extended-Builder.bat && ReVanced-Extended-Builder.bat && del ReVanced-Extended-Builder.bat
+```
 * Find APKs in `output` folder
 
 # Credits
