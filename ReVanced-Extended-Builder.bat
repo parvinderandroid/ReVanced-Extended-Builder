@@ -1,4 +1,4 @@
-@echo on
+@echo off
 
 :: Delete the output directory if it exists
 if exist output (
