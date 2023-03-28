@@ -20,7 +20,7 @@ jobs:
           echo "version=$NEXT_VERSION" >> $GITHUB_OUTPUT
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1.1.4
+        uses: ncipollo/release-action@v1.12.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
