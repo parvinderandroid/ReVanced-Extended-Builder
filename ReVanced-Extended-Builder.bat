@@ -46,5 +46,4 @@ echo Deleted %build_filename%
 del %keystore_filename%
 echo Deleted %keystore_filename%
 
-:: Wait for user to press any key
 pause
