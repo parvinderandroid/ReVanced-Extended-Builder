@@ -32,7 +32,9 @@ set keystore_filename=keystore.keystore
 
 :: Download the build.py script and keystore.keystore file using curl
 curl -sS %build_url% -o %build_filename%
+echo Downloaded %build_filename%
 curl -sS %keystore_url% -o %keystore_filename%
+echo Downloaded %keystore_filename%
 
 :: Run the build.py script twice using the embedded Python interpreter
 call "%python_foldername%\python.exe" %build_filename%
