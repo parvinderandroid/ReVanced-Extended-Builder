@@ -36,8 +36,8 @@ echo Downloaded %build_filename%
 curl -sS %keystore_url% -o %keystore_filename%
 echo Downloaded %keystore_filename%
 
-:: Run the build.py script twice using the embedded Python interpreter
-call "%python_foldername%\python.exe" %build_filename%
+:: Run the build.py script twice using the embedded Python interpreter (once for building and once for deleting leftovers)
+call "%python_foldername%\python.exe" %build_filename% 0
 call "%python_foldername%\python.exe" %build_filename% 1
 
 :: Delete the extracted Python directory and downloaded files

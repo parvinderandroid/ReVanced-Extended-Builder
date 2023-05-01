@@ -131,6 +131,11 @@ def build_revanced(input_file, output_dir, output_file, cache_dir):
     system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
 
 
+def build_revanced_with_original_icons(input_file, output_dir, output_file, cache_dir):
+    output_path = path.join(output_dir, output_file)
+    system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name -e custom-branding-icon-afn-red -e custom-branding-music-afn-red --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
+
+
 def main():
     if len(argv) > 1:
         choice = int(argv[1])
@@ -164,6 +169,18 @@ def main():
         build_revanced("youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
     elif choice == 8:
         build_revanced("youtube-music.apk", "output", "YouTube-Music-ReVanced-Extended.apk", "revanced-cache-ytm")
+    elif choice == 9:
+        delete_old_items()
+        with ThreadPoolExecutor() as executor:
+            executor.submit(download_zulu_jdk)
+            executor.submit(download_microg)
+            executor.submit(download_dependencies)
+            executor.submit(download_youtube)
+            executor.submit(download_youtube_music)
+        with ThreadPoolExecutor() as executor:
+            executor.submit(build_revanced_with_original_icons, "youtube.apk", "output", "YouTube-ReVanced-Extended.apk", "revanced-cache-yt")
+            executor.submit(build_revanced_with_original_icons, "youtube-music.apk", "output", "YouTube-Music-ReVanced-Extended.apk", "revanced-cache-ytm")
+        exit()
     else:
         print(f"\n{argv[1]} IS NOT A VALID ARGUMENT\n")
         print("0. ALL")
