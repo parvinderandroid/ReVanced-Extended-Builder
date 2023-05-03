@@ -58,7 +58,8 @@ def download_microg():
     url = "https://github.com/inotia00/mMicroG/releases/latest/download/microg.apk"
     filename = url.split("/")[-1]
     urlretrieve(url, filename)
-    print(f"Downloaded {filename}")
+    version = load(urlopen("https://api.github.com/repos/inotia00/mMicroG/releases/latest"))["tag_name"]
+    print(f'Downloaded {filename} ({version})')
     if not path.exists("output"):
         makedirs("output")
     rename(filename, f"output/{filename}")
