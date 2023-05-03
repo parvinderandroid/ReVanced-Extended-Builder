@@ -55,7 +55,7 @@ def download_zulu_jdk():
 
 
 def download_microg():
-    url = "https://github.com/inotia00/VancedMicroG/releases/latest/download/microg.apk"
+    url = "https://github.com/inotia00/mMicroG/releases/latest/download/microg.apk"
     filename = url.split("/")[-1]
     urlretrieve(url, filename)
     print(f"Downloaded {filename}")
