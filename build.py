@@ -23,6 +23,7 @@ def delete_old_items():
 
     items = [
         "options.toml",
+        "options.json",
         "revanced-cache",
         "revanced-cache-yt",
         "revanced-cache-ytm",
