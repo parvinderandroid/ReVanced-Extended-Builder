@@ -80,7 +80,7 @@ def download_dependencies():
                 print(f'Downloaded {filename} ({data["tag_name"]})')
 
     filenames_urls = {
-        "revanced-cli.jar": "https://api.github.com/repos/revanced/revanced-cli/releases/latest",
+        "revanced-cli.jar": "https://api.github.com/repos/inotia00/revanced-cli/releases/latest",
         "revanced-integrations.apk": "https://api.github.com/repos/inotia00/revanced-integrations/releases/latest",
         "revanced-patches.jar": "https://api.github.com/repos/inotia00/revanced-patches/releases/latest",
     }
