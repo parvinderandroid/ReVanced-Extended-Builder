@@ -130,12 +130,12 @@ def download_youtube_music():
 
 def build_revanced(input_file, output_dir, output_file, cache_dir):
     output_path = path.join(output_dir, output_file)
-    system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
+    system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-youtube-name --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
 
 
 def build_revanced_with_original_icons(input_file, output_dir, output_file, cache_dir):
     output_path = path.join(output_dir, output_file)
-    system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-name -e custom-branding-icon-afn-red -e custom-branding-music-afn-red --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
+    system(f'"{ZULU_JAVA_EXE}" -jar revanced-cli.jar -a {input_file} -b revanced-patches.jar -m revanced-integrations.apk -e custom-branding-youtube-name -e custom-branding-icon-revancify-blue --keystore={KEYSTORE_FILE} -t={cache_dir} -o {output_path}')
 
 
 def main():
